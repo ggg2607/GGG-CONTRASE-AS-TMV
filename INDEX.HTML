@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Contraseñas Seguras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+        }
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Generador de Contraseñas Seguras</h1>
+        <input type="text" id="password" readonly>
+        <div class="options">
+            <label><input type="checkbox" id="uppercase" checked> Mayúsculas</label>
+            <label><input type="checkbox" id="numbers" checked> Números</label>
+            <label><input type="checkbox" id="symbols" checked> Símbolos</label>
+        </div>
+        <label for="length">Longitud: <span id="lengthValue">12</span></label>
+        <input type="range" id="length" min="6" max="24" value="12">
+        <button class="btn" onclick="generatePassword()">Generar Contraseña</button>
+    </div>
+
+    <script>
+        document.getElementById("length").addEventListener("input", function() {
+            document.getElementById("lengthValue").textContent = this.value;
+        });
+
+        function generatePassword() {
+            const length = document.getElementById("length").value;
+            const useUppercase = document.getElementById("uppercase").checked;
+            const useNumbers = document.getElementById("numbers").checked;
+            const useSymbols = document.getElementById("symbols").checked;
+
+            const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+            const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const numberChars = "0123456789";
+            const symbolChars = "!@#$%^&*()_-+=<>?";
+
+            let charPool = lowercaseChars;
+            if (useUppercase) charPool += uppercaseChars;
+            if (useNumbers) charPool += numberChars;
+            if (useSymbols) charPool += symbolChars;
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                password += charPool.charAt(Math.floor(Math.random() * charPool.length));
+            }
+
+            document.getElementById("password").value = password;
+        }
+    </script>
+
+</body>
+</html>
